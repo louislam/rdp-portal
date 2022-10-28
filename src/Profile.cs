@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -77,9 +78,12 @@ namespace RDP_Portal {
                 "username:",
                 "password",
                 "domain:",
+                "winposstr",
             };
 
             var result = new List<string>();
+            var width = 1280;
+            var height = 720;
 
             foreach (var line in lines) {
                 var ok = true;
@@ -90,6 +94,23 @@ namespace RDP_Portal {
                         break;
                     }
                 }
+
+                // Extract Width & Height
+                try {
+                    int w = width, h = height;
+
+                    if (line.StartsWith("desktopwidth:i:")) {
+                        w = int.Parse(line.Replace("desktopwidth:i:", ""));
+                    }
+                    if (line.StartsWith("desktopheight:i:")) {
+                        h = int.Parse(line.Replace("desktopheight:i:", ""));
+                    }
+                    width = w;
+                    height = h;
+                } catch (Exception ex) {
+
+                }
+
 
                 if (ok) {
                     result.Add(line);
@@ -112,9 +133,25 @@ namespace RDP_Portal {
                 result.Add("domain:s:" + Domain);
             }
 
+            // Reset the start position
+            var xBuffer = 10;
+            var yBuffer = 25;
+
+            Rectangle resolution = Screen.PrimaryScreen.Bounds;
+            var left = resolution.Size.Width / 2 - width / 2 - xBuffer;
+            var top = resolution.Size.Height / 2 - height / 2 - yBuffer;
+            var right = resolution.Size.Width / 2 + width / 2 + xBuffer;
+            var bottom = resolution.Size.Height / 2 + height / 2 + yBuffer;
+            result.Add($"winposstr:s:0,1,{left},{top},{right},{bottom}");
+
             if (justCreated) {
+                result.Add("desktopwidth:i:1280");
+                result.Add("desktopheight:i:720");
+                result.Add("use multimon:i:0");
+                result.Add("screen mode id:i:1");
                 result.Add("authentication level:i:0");
                 result.Add("prompt for credentials:i:0");
+                result.Add("promptcredentialonce:i:0");
             }
 
             var writer = new StreamWriter(Filename, false);
