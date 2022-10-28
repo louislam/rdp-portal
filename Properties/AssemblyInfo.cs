@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("RDP Portal")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A slightly smarter and simple Remote Desktop manager for Windows.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Louis Lam")]
 [assembly: AssemblyProduct("RDP Protal")]
-[assembly: AssemblyCopyright("Copyright ©  2022 Louis Lam")]
+[assembly: AssemblyCopyright("Copyright © 2022 Louis Lam")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
