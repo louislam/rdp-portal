@@ -26,7 +26,7 @@ With RDP Portal, it is possible to save password and use it on any other Windows
 
 2. How to config more settings like screen resolution?
 
-> You can click `Options` in RDP Portal, it will open the original Remote Desktop Connection application. You can set anything there, but you have to click `Save` and don't click `Connect`.
+> You can click `Options` in RDP Portal, it will open the original Remote Desktop Connection application. You can set anything there, but you have to click `Save` finally. Don't click `Connect`.
 
 <img src="https://user-images.githubusercontent.com/1336778/198681115-c3ccb823-43b8-480a-b81c-ff32d5d117ae.png" width=600 />
 
