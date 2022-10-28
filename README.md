@@ -16,7 +16,10 @@ With RDP Portal, it is possible to save password and use it on any other Windows
 - Backup-able
 - The workflow is similar to WinSCP or HeidiSQL
 
+## Download
 
+From GitHub:
+https://github.com/louislam/rdp-portal/releases/latest
 
 ## FAQ
 
