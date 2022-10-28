@@ -26,7 +26,7 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.checkBoxKeepOpening = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonAbout = new System.Windows.Forms.Button();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.textBoxComputer = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -62,16 +62,17 @@
             this.checkBoxKeepOpening.UseVisualStyleBackColor = true;
             this.checkBoxKeepOpening.CheckedChanged += new System.EventHandler(this.checkBoxKeepOpening_CheckedChanged);
             // 
-            // button1
+            // buttonAbout
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(487, 432);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 28);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "About";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAbout.Location = new System.Drawing.Point(487, 432);
+            this.buttonAbout.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonAbout.Name = "buttonAbout";
+            this.buttonAbout.Size = new System.Drawing.Size(100, 28);
+            this.buttonAbout.TabIndex = 2;
+            this.buttonAbout.Text = "About";
+            this.buttonAbout.UseVisualStyleBackColor = true;
+            this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
             // 
             // buttonConnect
             // 
@@ -296,7 +297,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonConnect);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonAbout);
             this.Controls.Add(this.checkBoxKeepOpening);
             this.Controls.Add(this.listBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -346,7 +347,7 @@
 
         private System.Windows.Forms.Button buttonConnect;
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonAbout;
 
         private System.Windows.Forms.CheckBox checkBoxKeepOpening;
 

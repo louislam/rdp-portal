@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -21,6 +22,17 @@ namespace RDP_Portal {
         public string Computer { get; set; }
         public string Username { get; set; }
 
+        /**
+         * Encrypted Password used by mstsc.exe
+         */
+        public string GetRDPEncryptedPassword() {
+            var mstscpw = new Mstscpw();
+            return mstscpw.encryptpw(this.Password);
+        }
+
+        /**
+         * Encrypted Password in config.json
+         */
         public string EncryptedPassword { get; set; } = "";
 
         [JsonIgnore]
@@ -59,28 +71,56 @@ namespace RDP_Portal {
                 justCreated = true;
             }
 
-            var writer = File.AppendText(Filename);
+            var lines = File.ReadAllLines(Filename);
+            var removeList = new [] {
+                "full address:",
+                "username:",
+                "password",
+                "domain:",
+            };
+
+            var result = new List<string>();
+
+            foreach (var line in lines) {
+                var ok = true;
+
+                foreach (var startKeyword in removeList) {
+                    if (line.StartsWith(startKeyword)) {
+                        ok = false;
+                        break;
+                    }
+                }
+
+                if (ok) {
+                    result.Add(line);
+                }
+            }
 
             if (Computer != "") {
-                writer.WriteLine("full address:s:" + Computer);
+                result.Add("full address:s:" + Computer);
             }
 
             if (Username != "") {
-                writer.WriteLine("username:s:" + Username);
+                result.Add("username:s:" + Username);
             }
 
             if (Password != "") {
-                // TODO
-                writer.WriteLine("password 51:b:" + Password);
+                result.Add("password 51:b:" + GetRDPEncryptedPassword());
             }
 
             if (Domain != "") {
-                writer.WriteLine("domain:s:" + Domain);
+                result.Add("domain:s:" + Domain);
             }
 
             if (justCreated) {
-                writer.WriteLine("authentication level:i:0");
-                writer.WriteLine("prompt for credentials:i:0");
+                result.Add("authentication level:i:0");
+                result.Add("prompt for credentials:i:0");
+            }
+
+            var writer = new StreamWriter(Filename, false);
+
+            foreach (var line in result) {
+                writer.WriteLine(line);
             }
 
             writer.Close();

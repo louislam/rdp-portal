@@ -140,6 +140,12 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="About.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="About.Designer.cs">
+          <DependentUpon>About.cs</DependentUpon>
+        </Compile>
         <Compile Include="Config.cs" />
         <Compile Include="MainForm.cs">
             <SubType>Form</SubType>
@@ -147,11 +153,15 @@
         <Compile Include="MainForm.Designer.cs">
             <DependentUpon>MainForm.cs</DependentUpon>
         </Compile>
+        <Compile Include="Mstscpw.cs" />
         <Compile Include="Profile.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="RdpFile.cs" />
         <Compile Include="StringUtil.cs" />
+        <EmbeddedResource Include="About.resx">
+          <DependentUpon>About.cs</DependentUpon>
+        </EmbeddedResource>
         <EmbeddedResource Include="MainForm.resx">
           <DependentUpon>MainForm.cs</DependentUpon>
         </EmbeddedResource>

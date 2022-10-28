@@ -174,5 +174,10 @@ namespace RDP_Portal {
             _config.KeepOpening = checkBoxKeepOpening.Checked;
             _config.Save();
         }
+
+        private void buttonAbout_Click(object sender, EventArgs e) {
+            About about = new About();
+            about.ShowDialog(this);
+        }
     }
 }
