@@ -184,5 +184,9 @@ namespace RDP_Portal {
             About about = new About();
             about.ShowDialog(this);
         }
+
+        private void listBox_MouseDoubleClick(object sender, MouseEventArgs e) {
+            buttonConnect_Click(sender, e);
+        }
     }
 }

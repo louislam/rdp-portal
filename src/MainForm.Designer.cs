@@ -280,6 +280,7 @@
             this.listBox.Size = new System.Drawing.Size(211, 276);
             this.listBox.TabIndex = 0;
             this.listBox.SelectedValueChanged += new System.EventHandler(this.listBox_SelectedValueChanged);
+            this.listBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox_MouseDoubleClick);
             // 
             // MainForm
             // 
