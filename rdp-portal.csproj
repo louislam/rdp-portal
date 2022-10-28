@@ -15,7 +15,7 @@
         <Deterministic>true</Deterministic>
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
-        <ApplicationIcon>icon.ico</ApplicationIcon>
+        <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -140,31 +140,25 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="About.cs">
-          <SubType>Form</SubType>
-        </Compile>
-        <Compile Include="About.Designer.cs">
-          <DependentUpon>About.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Config.cs" />
-        <Compile Include="MainForm.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Include="MainForm.Designer.cs">
-            <DependentUpon>MainForm.cs</DependentUpon>
-        </Compile>
-        <Compile Include="Mstscpw.cs" />
-        <Compile Include="Profile.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="RdpFile.cs" />
-        <Compile Include="StringUtil.cs" />
-        <EmbeddedResource Include="About.resx">
+        <Compile Include="src\About.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="src\About.Designer.cs">
           <DependentUpon>About.cs</DependentUpon>
-        </EmbeddedResource>
-        <EmbeddedResource Include="MainForm.resx">
+        </Compile>
+        <Compile Include="src\Config.cs" />
+        <Compile Include="src\MainForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="src\MainForm.Designer.cs">
           <DependentUpon>MainForm.cs</DependentUpon>
-        </EmbeddedResource>
+        </Compile>
+        <Compile Include="src\Mstscpw.cs" />
+        <Compile Include="src\Profile.cs" />
+        <Compile Include="src\RdpFile.cs" />
+        <Compile Include="src\StringUtil.cs" />
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -174,7 +168,12 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
-        <None Include="icon.ico" />
+        <EmbeddedResource Include="src\About.resx">
+          <DependentUpon>About.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="src\MainForm.resx">
+          <DependentUpon>MainForm.cs</DependentUpon>
+        </EmbeddedResource>
         <None Include="packages.config" />
         <None Include="Properties\Settings.settings">
             <Generator>SettingsSingleFileGenerator</Generator>
@@ -185,6 +184,7 @@
             <DependentUpon>Settings.settings</DependentUpon>
             <DesignTimeSharedInput>True</DesignTimeSharedInput>
         </Compile>
+        <None Include="Resources\icon.ico" />
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
