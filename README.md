@@ -33,3 +33,10 @@ With RDP Portal, it is possible to save password and use it on any other Windows
 ## Credit
 
 - <a href="https://www.flaticon.com/free-icons/computer" title="computer icons">Computer icons created by Freepik - Flaticon</a>
+
+
+## Development
+
+- IDE: Rider
+- .NET Framework 4.7.2
+- Windows Form
