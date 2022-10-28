@@ -29,3 +29,7 @@ With RDP Portal, it is possible to save password and use it on any other Windows
 > You can click `Options` in RDP Portal, it will open the original Remote Desktop Connection application. You can set anything there, but you have to click `Save` and don't click `Connect`.
 
 <img src="https://user-images.githubusercontent.com/1336778/198681115-c3ccb823-43b8-480a-b81c-ff32d5d117ae.png" width=600 />
+
+## Credit
+
+- <a href="https://www.flaticon.com/free-icons/computer" title="computer icons">Computer icons created by Freepik - Flaticon</a>
