@@ -86,6 +86,11 @@ namespace RDP_Portal {
             try {
                 var exeProcess = Process.Start(startInfo) ?? throw new InvalidOperationException();
                 exeProcess.WaitForExit();
+
+                if (!_config.KeepOpening) {
+                    this.Close();
+                }
+
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
