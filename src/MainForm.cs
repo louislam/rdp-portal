@@ -151,13 +151,23 @@ namespace RDP_Portal {
         }
 
         private void buttonDelete_Click(object sender, EventArgs e) {
-            var selectedItems = (Profile) listBox.SelectedItem;
-            selectedItems.Delete();
-            _config.Profiles.Remove(selectedItems);
-            _config.Save();
-            if (_config.Profiles.Count == 0) {
-                AddNewProfile();
-                SelectProfile(true);
+            // show confirm dialog
+            var confirmResult = MessageBox.Show(
+                "Are you sure to delete this profile?",
+                "Confirm",
+                MessageBoxButtons.YesNo);
+
+            // if confirm delete
+            if (confirmResult == DialogResult.Yes) {
+                var selectedItems = (Profile) listBox.SelectedItem;
+                selectedItems.Delete();
+                _config.Profiles.Remove(selectedItems);
+                _config.Save();
+
+                if (_config.Profiles.Count == 0) {
+                    AddNewProfile();
+                    SelectProfile(true);
+                }
             }
         }
 
