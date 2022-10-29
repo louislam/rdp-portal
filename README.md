@@ -11,9 +11,9 @@ By default, Remote Desktop Connection (mstsc.exe) is not possible to backup the 
 With RDP Portal, it is possible to save password and use it on any other Windows PCs.
 
 ## ⭐ Features
-- Save Password
 - Portable
-- Backup-able
+- Backup-able Saved Passwords
+- Same user experience while connected to your remote desktop.
 - The workflow is similar to WinSCP or HeidiSQL
 
 ## Download

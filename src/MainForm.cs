@@ -74,13 +74,20 @@ namespace RDP_Portal {
 
 
         private void buttonConnect_Click(object sender, EventArgs e) {
-            GetSelectedProfile().PrepareRdpFile();
+            var profile = GetSelectedProfile();
+
+            if (String.IsNullOrWhiteSpace(profile.Computer) || String.IsNullOrWhiteSpace(profile.Computer)) {
+                MessageBox.Show("Invalid connection");
+                return;
+            }
+
+            profile.PrepareRdpFile();
 
             ProcessStartInfo startInfo = new ProcessStartInfo {
                 CreateNoWindow = false,
                 UseShellExecute = false,
                 FileName = "mstsc.exe",
-                Arguments = GetSelectedProfile().Filename,
+                Arguments = profile.Filename,
             };
 
             try {
