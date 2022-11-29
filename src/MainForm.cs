@@ -205,5 +205,39 @@ namespace RDP_Portal {
         private void listBox_MouseDoubleClick(object sender, MouseEventArgs e) {
             buttonConnect_Click(sender, e);
         }
+
+        /**
+         * From https://stackoverflow.com/questions/8333282/how-can-i-include-icons-in-my-listbox
+         */
+        private void listBox_DrawItem(object sender, DrawItemEventArgs e) {
+            if (e.Index == -1)
+                return;
+
+            e.DrawBackground();
+            Brush myBrush = Brushes.Black;
+
+
+            var iconWidth = listBox.ItemHeight;
+            var iconMargin = 4;
+            var textMargin = (iconWidth - 18) / 2;
+            var rect = new Rectangle(e.Bounds.X + iconMargin, e.Bounds.Y, iconWidth, iconWidth);
+            //assuming the icon is already added to project resources
+
+            e.Graphics.DrawIcon(rdp_portal.Properties.Resources.icon, rect);
+
+            var profile = (Profile)listBox.Items[e.Index];
+
+            e.Graphics.DrawString(
+                profile.Name,
+                e.Font,
+                myBrush,
+                new Rectangle(e.Bounds.X + iconMargin * 2 + iconWidth, e.Bounds.Y + textMargin, e.Bounds.Width, e.Bounds.Height),
+                StringFormat.GenericDefault
+            );
+
+            // If the ListBox has focus, draw a focus rectangle around the selected item.
+            e.DrawFocusRectangle();
+        }
+
     }
 }
