@@ -1,6 +1,6 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rdp-portal", "rdp-portal.csproj", "{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rdp-portal", "rdp-portal.csproj", "{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

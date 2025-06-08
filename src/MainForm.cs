@@ -31,6 +31,7 @@ namespace RDP_Portal {
             checkBoxKeepOpening.Checked = _config.KeepOpening;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool EditMode {
             get => _editMode;
             set {
