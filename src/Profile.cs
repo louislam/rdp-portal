@@ -107,7 +107,7 @@ namespace RDP_Portal {
                     }
                     width = w;
                     height = h;
-                } catch (Exception ex) {
+                } catch (Exception) {
 
                 }
 
@@ -166,9 +166,11 @@ namespace RDP_Portal {
         [JsonIgnore] public bool JustAdded { get; set; } = false;
 
         public void Delete() {
-            try {
+            try
+            {
                 File.Delete(Filename);
-            } catch (Exception ex) {
+            } catch (Exception)
+            {
 
             }
         }

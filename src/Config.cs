@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace RDP_Portal {
     public class Config {
 
-        private static Config? _instance;
+        private static Config _instance;
         public static string filename = "config.json";
         public static string rdpDir = "rdp-files";
         
