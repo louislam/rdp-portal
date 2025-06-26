@@ -1,6 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rdp-portal", "rdp-portal.csproj", "{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{3408D7CF-2799-4BF0-9578-2C94337C3809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForms", "WinForms\WinForms.csproj", "{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3408D7CF-2799-4BF0-9578-2C94337C3809} = {3408D7CF-2799-4BF0-9578-2C94337C3809}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "Cli\Cli.csproj", "{5EC5A1EE-BEF0-4AC4-A47C-27064A8DAC28}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3408D7CF-2799-4BF0-9578-2C94337C3809} = {3408D7CF-2799-4BF0-9578-2C94337C3809}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +18,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3408D7CF-2799-4BF0-9578-2C94337C3809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3408D7CF-2799-4BF0-9578-2C94337C3809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3408D7CF-2799-4BF0-9578-2C94337C3809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3408D7CF-2799-4BF0-9578-2C94337C3809}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C4D655E-4C37-4E07-87E0-A4EB9DCAA651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EC5A1EE-BEF0-4AC4-A47C-27064A8DAC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC5A1EE-BEF0-4AC4-A47C-27064A8DAC28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

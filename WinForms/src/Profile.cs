@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Core;
 using Newtonsoft.Json;
 
 namespace RDP_Portal {
@@ -27,8 +28,8 @@ namespace RDP_Portal {
          * Encrypted Password used by mstsc.exe
          */
         public string GetRDPEncryptedPassword() {
-            var mstscpw = new Mstscpw();
-            return mstscpw.encryptpw(this.Password);
+            var mstscpw = new MstscPassword();
+            return mstscpw.EncryptPassword(this.Password);
         }
 
         /**
