@@ -1,14 +1,14 @@
 using System;
+using System.IO;
 using CommandLine;
+using Core;
 
 namespace Cli {
-    internal class Program {
-        private class Options {
-            
+    internal static class Program {
+        internal class Options {
             // Optional config
-            [Option('c', "config", Required = false, HelpText = "Path to the configuration file.")]
-            public string ConfigPath { get; set; } = "config.json";
-    
+            [Option('c', "config-folder", Required = false, HelpText = "Path to the configuration folder.")]
+            public string ConfigFolder { get; set; } = ".\\";
         }
         
         // Connect
@@ -44,6 +44,10 @@ namespace Cli {
                     (AddOptions options) => Add(options),
                     errs => 1
                 );
+        }
+
+        public static Config GetConfig(Options options) {
+            return Config.GetConfig(options.ConfigFolder);
         }
         
         private static int Add(AddOptions options) {

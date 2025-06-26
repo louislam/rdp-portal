@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Core;
 
 namespace RDP_Portal {
     public partial class MainForm : Form {
@@ -18,7 +13,7 @@ namespace RDP_Portal {
 
         public MainForm() {
             InitializeComponent();
-            _config = Config.GetConfig();
+            _config = Config.GetConfig(".\\");
         }
         
         private void MainForm_Load(object sender, EventArgs e) {
@@ -50,8 +45,11 @@ namespace RDP_Portal {
         }
 
         private void AddNewProfile() {
-            var profile = new Profile();
-            profile.JustAdded = true;
+            var profile = new Profile {
+                JustAdded = true,
+                Name = "<New Profile>",
+                Config = _config,
+            };
             _config.Profiles.Add(profile);
             listBox.SelectedIndex = _config.Profiles.Count - 1;
         }
@@ -160,7 +158,13 @@ namespace RDP_Portal {
             // if confirm delete
             if (confirmResult == DialogResult.Yes) {
                 var selectedItems = (Profile) listBox.SelectedItem;
-                selectedItems.Delete();
+
+                try {
+                    selectedItems.DeleteRDPFile();
+                } catch (Exception ex) {
+                    // ignored
+                }
+
                 _config.Profiles.Remove(selectedItems);
                 _config.Save();
 
