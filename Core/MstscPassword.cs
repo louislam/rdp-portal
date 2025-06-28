@@ -1,43 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
-namespace RDP_Portal {
+namespace Core {
     /**
      * By ChipForster
      * https://www.remkoweijnen.nl/blog/2007/10/18/how-rdp-passwords-are-encrypted/
      */
-    class Mstscpw {
-        private const int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
+    public class MstscPassword {
+        private const int CryptProtectUiForbidden = 0x1;
 
         // Wrapper for the NULL handle or pointer.
-        static private IntPtr NullPtr = ((IntPtr)((int)(0)));
+        private static readonly IntPtr NullPtr = (IntPtr) 0;
 
         // Wrapper for DPAPI CryptProtectData function.
-        [DllImport( "crypt32.dll", SetLastError = true,
-        CharSet = System.Runtime.InteropServices.CharSet.Auto )]
+        [DllImport( "crypt32.dll", SetLastError = true, CharSet = CharSet.Auto )]
 
         private static extern bool CryptProtectData(
-            ref DATA_BLOB pPlainText,
+            ref DataBlob pPlainText,
             [MarshalAs(UnmanagedType.LPWStr)] string szDescription,
             IntPtr pEntroy,
             IntPtr pReserved,
             IntPtr pPrompt,
             int dwFlags,
-            ref DATA_BLOB pCipherText);
+            ref DataBlob pCipherText);
 
         // BLOB structure used to pass data to DPAPI functions.
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        internal struct DATA_BLOB {
+        private struct DataBlob {
             public int cbData;
             public IntPtr pbData;
         }
 
-        private static void InitBLOB(byte[] data, ref DATA_BLOB blob) {
+        private static void InitBlob(byte[] data, ref DataBlob blob) {
             blob.pbData = Marshal.AllocHGlobal(data.Length);
             if (blob.pbData == IntPtr.Zero)
                 throw new Exception( "Unable to allocate buffer for BLOB data." );
@@ -46,14 +42,14 @@ namespace RDP_Portal {
             Marshal.Copy(data, 0, blob.pbData, data.Length);
         }
 
-        public string encryptpw(string pw) {
+        public string EncryptPassword(string pw) {
             byte[] pwba = Encoding.Unicode.GetBytes(pw);
-            DATA_BLOB dataIn = new DATA_BLOB();
-            DATA_BLOB dataOut = new DATA_BLOB();
+            DataBlob dataIn = new DataBlob();
+            DataBlob dataOut = new DataBlob();
             StringBuilder epwsb = new StringBuilder();
             try {
                 try {
-                    InitBLOB(pwba, ref dataIn);
+                    InitBlob(pwba, ref dataIn);
                 } catch (Exception ex) {
                     throw new Exception( "Cannot initialize dataIn BLOB.", ex );
                 }
@@ -64,7 +60,7 @@ namespace RDP_Portal {
                 NullPtr,
                 NullPtr,
                 NullPtr,
-                CRYPTPROTECT_UI_FORBIDDEN,
+                CryptProtectUiForbidden,
                     ref dataOut );
 
                 if (!success) {

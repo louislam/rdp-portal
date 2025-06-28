@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Core;
 
 namespace RDP_Portal {
     public partial class MainForm : Form {
@@ -18,7 +13,7 @@ namespace RDP_Portal {
 
         public MainForm() {
             InitializeComponent();
-            _config = Config.GetConfig();
+            _config = Config.GetConfig(".\\");
         }
         
         private void MainForm_Load(object sender, EventArgs e) {
@@ -50,8 +45,11 @@ namespace RDP_Portal {
         }
 
         private void AddNewProfile() {
-            var profile = new Profile();
-            profile.JustAdded = true;
+            var profile = new Profile {
+                JustAdded = true,
+                Name = "<New Profile>",
+                Config = _config,
+            };
             _config.Profiles.Add(profile);
             listBox.SelectedIndex = _config.Profiles.Count - 1;
         }
@@ -74,30 +72,13 @@ namespace RDP_Portal {
 
 
         private void buttonConnect_Click(object sender, EventArgs e) {
-            var profile = GetSelectedProfile();
-
-            if (String.IsNullOrWhiteSpace(profile.Computer) || String.IsNullOrWhiteSpace(profile.Computer)) {
-                MessageBox.Show("Invalid connection");
-                return;
-            }
-
-            profile.PrepareRdpFile();
-
-            ProcessStartInfo startInfo = new ProcessStartInfo {
-                CreateNoWindow = false,
-                UseShellExecute = false,
-                FileName = "mstsc.exe",
-                Arguments = profile.Filename,
-            };
-
             try {
-                var exeProcess = Process.Start(startInfo) ?? throw new InvalidOperationException();
-                exeProcess.WaitForExit();
+                var profile = GetSelectedProfile();
+                profile.Connect();
 
                 if (!_config.KeepOpening) {
-                    this.Close();
+                    Close();
                 }
-
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
@@ -160,7 +141,13 @@ namespace RDP_Portal {
             // if confirm delete
             if (confirmResult == DialogResult.Yes) {
                 var selectedItems = (Profile) listBox.SelectedItem;
-                selectedItems.Delete();
+
+                try {
+                    selectedItems.DeleteRDPFile();
+                } catch (Exception ex) {
+                    // ignored
+                }
+
                 _config.Profiles.Remove(selectedItems);
                 _config.Save();
 
@@ -173,10 +160,11 @@ namespace RDP_Portal {
 
         private void buttonSave_Click(object sender, EventArgs e) {
             var profile = (Profile) listBox.SelectedItem;
-
             profile.JustAdded = false;
-
+            
             profile.Name = textBoxName.Text;
+            _config.profileExists(profile);
+            
             profile.Computer = textBoxComputer.Text;
             profile.Username = textBoxUsername.Text;
             profile.Password = textBoxPassword.Text;

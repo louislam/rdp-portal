@@ -1,41 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
-namespace RDP_Portal {
+namespace Core {
     public class Profile {
-        private string _name = "";
+        
+        [JsonIgnore]
+        public Config Config { get; set; }
+        public virtual string Name { get; set; }
 
-        public string Name {
-            get {
-                if (_name == "") {
-                    return "<New Profile>";
-                }
-                return _name;
-            }
-            set => _name = value;
-        }
-
-        public string Filename { get; set; } = "";
         public string Computer { get; set; }
         public string Username { get; set; }
-
-        /**
-         * Encrypted Password used by mstsc.exe
-         */
-        public string GetRDPEncryptedPassword() {
-            var mstscpw = new Mstscpw();
-            return mstscpw.encryptpw(this.Password);
-        }
-
-        /**
-         * Encrypted Password in config.json
-         */
+        public string Domain { get; set; }
         public string EncryptedPassword { get; set; } = "";
-
+        public string Filename { get; set; } = "";
+        
         [JsonIgnore]
         public string Password {
             get {
@@ -47,21 +30,34 @@ namespace RDP_Portal {
             set => EncryptedPassword = value.Encrypt();
         }
 
-        public string Domain { get; set; }
-
+        /// <summary>
+        /// Convert Name to a valid filename, remove invalid characters. (e.g. )
+        /// </summary>
+        private string GenerateFilename() {
+            var invalidChars = Path.GetInvalidFileNameChars();
+            var validName = Name;
+            foreach (var c in invalidChars) {
+                validName = validName.Replace(c.ToString(), "_");
+            }
+            return validName;
+        }
+        
         public void PrepareRdpFile() {
             var justCreated = false;
 
-            if (Filename == null || Filename == "") {
-                String name;
+            if (Filename == "") {
+                string name;
+                var i = 0;
                 while (true) {
-                    name = Config.rdpDir + "\\" + StringUtil.GenerateName(8) + ".rdp";
+                    var num = (i == 0) ? "" : "_" + i;
+                    name = Path.Combine(Config.RdpDir, GenerateFilename() + num + ".rdp");
                     if (!File.Exists(name)) {
                         var file = File.Create(name);
                         file.Close();
                         justCreated = true;
                         break;
                     }
+                    i++;
                 }
                 Filename = name;
             }
@@ -107,7 +103,7 @@ namespace RDP_Portal {
                     }
                     width = w;
                     height = h;
-                } catch (Exception ex) {
+                } catch (Exception) {
 
                 }
 
@@ -163,14 +159,37 @@ namespace RDP_Portal {
             writer.Close();
         }
 
-        [JsonIgnore] public bool JustAdded { get; set; } = false;
+        [JsonIgnore] 
+        public bool JustAdded { get; set; } = false;
 
-        public void Delete() {
-            try {
-                File.Delete(Filename);
-            } catch (Exception ex) {
+        /// <summary>
+        /// Encrypted Password used by mstsc.exe
+        /// </summary>
+        public string GetRDPEncryptedPassword() {
+            var mstscpw = new MstscPassword();
+            return mstscpw.EncryptPassword(Password);
+        }
+        
+        public virtual void DeleteRDPFile() {
+            File.Delete(Filename);
+        }
 
+        public void Connect() {
+            if (String.IsNullOrWhiteSpace(Computer) || String.IsNullOrWhiteSpace(Computer)) {
+                throw new Exception("Invalid connection");
             }
+
+            PrepareRdpFile();
+
+            ProcessStartInfo startInfo = new ProcessStartInfo {
+                CreateNoWindow = false,
+                UseShellExecute = false,
+                FileName = "mstsc.exe",
+                Arguments = Filename,
+            };
+            
+            var exeProcess = Process.Start(startInfo) ?? throw new InvalidOperationException();
+            exeProcess.WaitForExit();
         }
     }
 }
