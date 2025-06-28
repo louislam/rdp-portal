@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -48,7 +49,7 @@ namespace Core {
                 string name;
                 var i = 0;
                 while (true) {
-                    var num = i == 0 ? "" : "_" + i;
+                    var num = (i == 0) ? "" : "_" + i;
                     name = Path.Combine(Config.RdpDir, GenerateFilename() + num + ".rdp");
                     if (!File.Exists(name)) {
                         var file = File.Create(name);
@@ -171,6 +172,24 @@ namespace Core {
         
         public virtual void DeleteRDPFile() {
             File.Delete(Filename);
+        }
+
+        public void Connect() {
+            if (String.IsNullOrWhiteSpace(Computer) || String.IsNullOrWhiteSpace(Computer)) {
+                throw new Exception("Invalid connection");
+            }
+
+            PrepareRdpFile();
+
+            ProcessStartInfo startInfo = new ProcessStartInfo {
+                CreateNoWindow = false,
+                UseShellExecute = false,
+                FileName = "mstsc.exe",
+                Arguments = Filename,
+            };
+            
+            var exeProcess = Process.Start(startInfo) ?? throw new InvalidOperationException();
+            exeProcess.WaitForExit();
         }
     }
 }

@@ -19,6 +19,12 @@ namespace Core {
         }
         
         public static Config GetConfig(string folder) {
+            
+            // Ensure the folder exists
+            if (!Directory.Exists(folder)) {
+                Directory.CreateDirectory(folder);
+            }
+            
             var filename = "config.json";
             
             var configFile = Path.Combine(folder, filename);
@@ -58,6 +64,14 @@ namespace Core {
         public BindingList<Profile> Profiles { get; set; }
 
         public bool KeepOpening { get; set; } = true;
+        
+        public void profileExists(Profile profile) {
+            foreach (var p in Profiles) {
+                if (p.Name == profile.Name) {
+                    throw new Exception("Profile name already exists: " + profile.Name);
+                }
+            }
+        }
 
         public void Save() {
             var json = JsonConvert.SerializeObject(this, Formatting.Indented);

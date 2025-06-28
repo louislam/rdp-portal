@@ -72,30 +72,13 @@ namespace RDP_Portal {
 
 
         private void buttonConnect_Click(object sender, EventArgs e) {
-            var profile = GetSelectedProfile();
-
-            if (String.IsNullOrWhiteSpace(profile.Computer) || String.IsNullOrWhiteSpace(profile.Computer)) {
-                MessageBox.Show("Invalid connection");
-                return;
-            }
-
-            profile.PrepareRdpFile();
-
-            ProcessStartInfo startInfo = new ProcessStartInfo {
-                CreateNoWindow = false,
-                UseShellExecute = false,
-                FileName = "mstsc.exe",
-                Arguments = profile.Filename,
-            };
-
             try {
-                var exeProcess = Process.Start(startInfo) ?? throw new InvalidOperationException();
-                exeProcess.WaitForExit();
+                var profile = GetSelectedProfile();
+                profile.Connect();
 
                 if (!_config.KeepOpening) {
-                    this.Close();
+                    Close();
                 }
-
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
@@ -177,10 +160,11 @@ namespace RDP_Portal {
 
         private void buttonSave_Click(object sender, EventArgs e) {
             var profile = (Profile) listBox.SelectedItem;
-
             profile.JustAdded = false;
-
+            
             profile.Name = textBoxName.Text;
+            _config.profileExists(profile);
+            
             profile.Computer = textBoxComputer.Text;
             profile.Username = textBoxUsername.Text;
             profile.Password = textBoxPassword.Text;

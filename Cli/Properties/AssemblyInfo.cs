@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RDP Portal CLI")]
-[assembly: AssemblyCopyright("Copyright @louislam 2025")]
+[assembly: AssemblyCopyright("Copyright @ 2025 Louis Lam")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

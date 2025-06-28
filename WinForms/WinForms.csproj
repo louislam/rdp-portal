@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <LangVersion>8</LangVersion>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>..\visual-studio-sign-key.snk</AssemblyOriginatorKeyFile>
