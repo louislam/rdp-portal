@@ -257,7 +257,8 @@ try {
   const geometry = `(() => [...document.querySelectorAll('.profile-item')].map(li => {
     const r = li.getBoundingClientRect();
     const i = li.querySelector('.profile-icon').getBoundingClientRect();
-    return [ +r.height.toFixed(2), +(i.y - r.y).toFixed(2) ];
+    const n = li.querySelector('.profile-name').getBoundingClientRect();
+    return [ +r.height.toFixed(2), +(i.y - r.y).toFixed(2), +(n.y - r.y).toFixed(2) ];
   }))()`
 
   const before = await cdp.eval(geometry)
@@ -267,6 +268,7 @@ try {
 
   check('rows keep one height', new Set(before.map(g => g[0])).size === 1, JSON.stringify(before))
   check('icon offset identical across rows', new Set(before.map(g => g[1])).size === 1, JSON.stringify(before))
+  check('text offset identical across rows', new Set(before.map(g => g[2])).size === 1, JSON.stringify(before))
   check('selecting does not move anything', JSON.stringify(before) === JSON.stringify(after), `${JSON.stringify(before)} vs ${JSON.stringify(after)}`)
 
   console.log('delete')

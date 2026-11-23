@@ -97,14 +97,18 @@ html, body {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 8px;
+    /* Fixed row box: no state (active/hover/focus) can change the height, so
+       neither the icon nor the text can move by a pixel when selection changes. */
+    height: 28px;
+    box-sizing: border-box;
+    padding: 0 8px;
+    margin: 0;
     border-radius: 0;
+    border: 0;
     cursor: default;
     background: #fff;
     color: var(--app-text);
-    /* No borders on rows: Bootstrap's .active style adds a top border, which
-       changes the row height by 1px and makes the centred icon jump. */
-    border: 0;
+    line-height: 16px;
 }
 
 /* WinForms ListBox selection: filled highlight, not an outline. */
@@ -120,12 +124,14 @@ html, body {
 .profile-icon {
     width: 16px;
     height: 16px;
+    flex: 0 0 16px;
 }
 
 .profile-name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: 16px;
 }
 
 .detail-pane {
