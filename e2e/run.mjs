@@ -245,10 +245,44 @@ try {
   await waitFor(() => readConfig().KeepOpening === false, 'KeepOpening persisted')
   check('keep opening persisted', readConfig().KeepOpening === false)
 
+  console.log('selection does not shift the layout')
+  // Add a second saved row, then compare geometry before/after changing selection.
+  await cdp.clickText('button', 'New')
+  await sleep(300)
+  await cdp.fill('#hostname', 'px2')
+  await cdp.fill('input[placeholder="Profile name"]', 'px2')
+  await cdp.clickText('.row-actions button', 'Save')
+  await sleep(500)
+
+  const geometry = `(() => [...document.querySelectorAll('.profile-item')].map(li => {
+    const r = li.getBoundingClientRect();
+    const i = li.querySelector('.profile-icon').getBoundingClientRect();
+    return [ +r.height.toFixed(2), +(i.y - r.y).toFixed(2) ];
+  }))()`
+
+  const before = await cdp.eval(geometry)
+  await cdp.clickText('.profile-item', 'server1')
+  await sleep(300)
+  const after = await cdp.eval(geometry)
+
+  check('rows keep one height', new Set(before.map(g => g[0])).size === 1, JSON.stringify(before))
+  check('icon offset identical across rows', new Set(before.map(g => g[1])).size === 1, JSON.stringify(before))
+  check('selecting does not move anything', JSON.stringify(before) === JSON.stringify(after), `${JSON.stringify(before)} vs ${JSON.stringify(after)}`)
+
   console.log('delete')
+  const beforeDelete = readConfig().Profiles.length
   await cdp.eval(`window.confirm = () => true`)
   await cdp.clickText('button', 'Delete')
-  await waitFor(() => readConfig().Profiles.length === 0, 'profile removed from config')
+  await waitFor(() => readConfig().Profiles.length === beforeDelete - 1, 'profile removed from config')
+  await sleep(400)
+  check('one profile removed', readConfig().Profiles.length === beforeDelete - 1, `${beforeDelete} -> ${readConfig().Profiles.length}`)
+  check('ui keeps the remaining rows', (await cdp.count('.profile-item')) === beforeDelete - 1, `${await cdp.count('.profile-item')} rows`)
+
+  // Remove the rest to exercise the empty-state path.
+  while (readConfig().Profiles.length > 0) {
+    await cdp.clickText('button', 'Delete')
+    await sleep(300)
+  }
   await sleep(400)
   check('config has no profiles', readConfig().Profiles.length === 0)
   check('ui keeps one placeholder', (await cdp.count('.profile-item')) === 1)

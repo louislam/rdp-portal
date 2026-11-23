@@ -102,7 +102,9 @@ html, body {
     cursor: default;
     background: #fff;
     color: var(--app-text);
-    border-color: transparent;
+    /* No borders on rows: Bootstrap's .active style adds a top border, which
+       changes the row height by 1px and makes the centred icon jump. */
+    border: 0;
 }
 
 /* WinForms ListBox selection: filled highlight, not an outline. */
@@ -110,7 +112,7 @@ html, body {
 .list-group .profile-item.active:hover {
     background: #0078d7;
     color: #fff;
-    border-color: #0078d7;
+    border: 0;
     outline: none;
     box-shadow: none;
 }
