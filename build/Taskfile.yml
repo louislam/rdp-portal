@@ -190,16 +190,9 @@ tasks:
     cmds:
       - wails3 generate bindings -f '{{.BUILD_FLAGS}}' -clean=true{{if eq .OBFUSCATED "true"}} -obfuscated{{end}} -ts -i
 
-  generate:icons:
-    summary: Generates the Windows .ico from appicon.png
-    run: once
-    dir: build
-    sources:
-      - "appicon.png"
-    generates:
-      - "windows/icon.ico"
-    cmds:
-      - wails3 generate icons -input appicon.png -windowsfilename windows/icon.ico -macfilename darwin/icon.icns
+  # Windows-only app: build/windows/icon.ico is committed and not regenerated
+  # during builds. `wails3 generate icons` always also writes a macOS .icns, so
+  # it stays a manual step (see AGENTS.md).
 
   dev:frontend:
     summary: Runs the frontend in development mode
@@ -394,5 +387,6 @@ tasks:
         xcrun devicectl device install app --device "{{.UDID}}" "$APP_PATH"
         echo "Launching: {{.BUNDLE_ID}}"
         xcrun devicectl device process launch --device "{{.UDID}}" --stderr console --stdout console "{{.BUNDLE_ID}}"
+
 
 
