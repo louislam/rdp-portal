@@ -33,18 +33,6 @@ From GitHub: https://github.com/louislam/rdp-portal/releases/latest
 
 <img src="https://user-images.githubusercontent.com/1336778/198681115-c3ccb823-43b8-480a-b81c-ff32d5d117ae.png" width=600 />
 
-## Development
-
-Windows only. Needs Go, Node.js and the Wails v3 CLI:
-
-```bash
-go install github.com/wailsapp/wails/v3/cmd/wails3@v3.1.0
-wails3 dev      # hot reload
-wails3 build    # -> bin/RDP-Portal.exe
-```
-
-Architecture, testing and release notes: [AGENTS.md](AGENTS.md).
-
 ## Credit
 
 - <a href="https://www.flaticon.com/free-icons/computer" title="computer icons">Computer icons created by Freepik - Flaticon</a>
