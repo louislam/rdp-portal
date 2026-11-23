@@ -1,0 +1,356 @@
+/* WinForms-ish shell around the Bootstrap controls. */
+:root {
+    --app-bg: #f0f0f0;
+    --app-border: #b8b8b8;
+    --app-text: #1b1b1b;
+    --app-muted: #5a5a5a;
+
+    /* Bootstrap 6.0.0-alpha.1 sets scrollbar-gutter: stable on :root, which
+       reserves an empty 15px strip down the right edge of the window. */
+    scrollbar-gutter: auto;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: var(--app-bg);
+    color: var(--app-text);
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 12px;
+    user-select: none;
+}
+
+#app {
+    height: 100%;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Banner rebuilt from the icon plus CSS: gradient and text sampled from the
+   original banner.png (#dce6f4 -> #fafcfc, text #5d6fd8). */
+.banner {
+    flex: 0 0 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-left: 23px;
+    background: linear-gradient(#dce6f4 0%, #eef4f9 55%, #fafcfc 100%);
+    border-bottom: 1px solid #dedede;
+}
+
+.banner-icon {
+    height: 68px;
+    width: auto;
+    flex: 0 0 auto;
+}
+
+.banner-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: #5d6fd8;
+    white-space: nowrap;
+}
+
+.banner-line1 {
+    font-size: 23px;
+    line-height: 1.05;
+}
+
+.banner-line2 {
+    font-size: 37px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.main {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+}
+
+.list-pane {
+    width: 200px;
+    flex: 0 0 200px;
+    overflow: hidden;
+}
+
+.list-group {
+    border: 1px solid var(--app-border);
+    border-radius: 0;
+    min-height: 100%;
+    background: #fff;
+}
+
+.profile-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 0;
+    cursor: default;
+    background: #fff;
+    color: var(--app-text);
+    border-color: transparent;
+}
+
+/* WinForms ListBox selection: filled highlight, not an outline. */
+.list-group .profile-item.active,
+.list-group .profile-item.active:hover {
+    background: #0078d7;
+    color: #fff;
+    border-color: #0078d7;
+    outline: none;
+    box-shadow: none;
+}
+
+.profile-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.profile-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.detail-pane {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.connection {
+    border: 1px solid var(--app-border);
+    padding: 8px 10px 10px;
+    margin: 0;
+}
+
+.connection legend {
+    font-size: 12px;
+    padding: 0 4px;
+    margin-bottom: 0;
+    width: auto;
+    float: none;
+}
+
+.field {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.field .form-label {
+    margin: 0;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.field-host {
+    grid-template-columns: 78px minmax(0, 1fr) 64px;
+}
+
+.field-host .port {
+    width: 64px;
+}
+
+.form-control {
+    font-size: 12px;
+    border-radius: 0;
+    padding: 3px 6px;
+    min-height: 22px;
+    background: #fff;
+}
+
+.form-control:disabled {
+    background: #f4f4f4;
+    color: var(--app-muted);
+}
+
+.row-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px 10px;
+    flex: 0 0 auto;
+}
+
+.footer-left,
+.footer-right {
+    display: flex;
+    gap: 6px;
+}
+
+.keep-opening {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 auto;
+    color: var(--app-text);
+    cursor: pointer;
+}
+
+/* Bootstrap 6 alpha buttons are compact by default; give them the WinForms height. */
+.btn {
+    border-radius: 0;
+    font-size: 12px;
+    padding: 4px 14px;
+    min-height: 24px;
+}
+
+.btn-outline {
+    border: 1px solid var(--app-border);
+    background: #f5f5f5;
+}
+
+.btn-outline:hover {
+    background: #e8e8e8;
+}
+
+/* About dialog copied from src/About.Designer.cs: client area 325x145,
+   labelName (12,21), label2 (12,44), link (12,67), OK (238,110) 75x23. */
+.about-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-dialog {
+    width: 341px;
+    background: var(--app-bg);
+    border: 1px solid #7a7a7a;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+    font-size: 12px;
+}
+
+.about-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 26px;
+    padding: 0 4px 0 8px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #d0d0d0;
+    font-size: 12px;
+}
+
+.about-close {
+    width: 22px;
+    height: 20px;
+    border: 0;
+    background: transparent;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.about-close:hover {
+    background: #e81123;
+    color: #fff;
+}
+
+.about-body {
+    position: relative;
+    width: 325px;
+    height: 145px;
+}
+
+.about-name {
+    position: absolute;
+    left: 12px;
+    top: 21px;
+    width: 301px;
+    height: 23px;
+}
+
+.about-author {
+    position: absolute;
+    left: 12px;
+    top: 44px;
+    width: 301px;
+    height: 23px;
+}
+
+.about-link {
+    position: absolute;
+    left: 12px;
+    top: 67px;
+    width: 301px;
+    height: 23px;
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+.about-ok {
+    position: absolute;
+    left: 238px;
+    top: 110px;
+    width: 75px;
+    height: 23px;
+    padding: 0;
+}
+
+.small {
+    font-size: 11px;
+    color: var(--app-muted);
+}
+
+/* Message banner: light yellow, like a WinForms message strip. */
+.alert {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff8cc;
+    border: 1px solid #e2cf70;
+    color: #4a3f00;
+    border-radius: 0;
+    font-size: 12px;
+    padding: 6px 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+
+.alert-text {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.alert-dismiss {
+    flex: 0 0 auto;
+    background: #fffdf0;
+}
+
+
+

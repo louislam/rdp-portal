@@ -1,0 +1,60 @@
+version: '3'
+
+vars:
+  APP_NAME: "RDP-Portal"
+  BIN_DIR: "bin"
+  PACKAGE_MANAGER: '{{.PACKAGE_MANAGER | default "npm"}}'
+  VITE_PORT: '{{.WAILS_VITE_PORT | default 9245}}'
+  # Target OS for build/package/run. Defaults to the host OS, and is overridden
+  # by `wails3 build GOOS=...` (or the GOOS env var) for cross-compilation. The
+  # tasks below dispatch to the matching platform Taskfile via this variable.
+  GOOS: '{{.GOOS | default OS}}'
+
+includes:
+  common: ./build/Taskfile.yml
+  windows: ./build/windows/Taskfile.yml
+
+tasks:
+  build:
+    summary: Builds the application
+    cmds:
+      - task: "{{.GOOS}}:build"
+
+  package:
+    summary: Packages a production build of the application
+    cmds:
+      - task: "{{.GOOS}}:package"
+
+  run:
+    summary: Runs the application
+    cmds:
+      - task: "{{.GOOS}}:run"
+
+  dev:
+    summary: Runs the application in development mode
+    cmds:
+      - wails3 dev -config ./build/config.yml -port {{.VITE_PORT}}
+
+  install:msix:tools:
+    summary: Installs tools required for Windows MSIX packaging
+    cmds:
+      - task: windows:install:msix:tools
+
+  test:
+    summary: Go unit tests with coverage
+    cmds:
+      - go test ./... -count=1 -cover
+
+  test:ui:
+    summary: Vue component tests
+    dir: frontend
+    cmds:
+      - npm test
+
+  test:e2e:
+    summary: Desktop end-to-end tests against the built exe
+    deps: [build]
+    cmds:
+      - node e2e/run.mjs
+
+

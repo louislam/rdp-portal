@@ -1,0 +1,28 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:dev": "vite build --minify false --mode development",
+    "build": "vite build --mode production",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "node ../e2e/run.mjs"
+  },
+  "dependencies": {
+    "@wailsio/runtime": "3.1.0",
+    "bootstrap": "^6.0.0-alpha.1",
+    "vue": "^3.5.45"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/test-utils": "^2.6.0",
+    "jsdom": "^31.0.1",
+    "playwright-core": "^1.65.1",
+    "typescript": "^4.9.3",
+    "vite": "^8.2.4",
+    "vitest": "^5.1.1"
+  }
+}

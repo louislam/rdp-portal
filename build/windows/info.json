@@ -1,0 +1,17 @@
+{
+	"fixed": {
+		"file_version": "2.0.0",
+		"product_version": "2.0.0"
+	},
+	"info": {
+		"0409": {
+			"FileVersion": "2.0.0",
+			"ProductVersion": "2.0.0",
+			"CompanyName": "Louis Lam",
+			"FileDescription": "A slightly smarter and simple Remote Desktop manager for Windows.",
+			"LegalCopyright": "(c) 2026, Louis Lam",
+			"ProductName": "RDP Portal",
+			"Comments": "https://github.com/louislam/rdp-portal"
+		}
+	}
+}
